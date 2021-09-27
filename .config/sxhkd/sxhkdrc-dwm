@@ -1,0 +1,95 @@
+
+# wm independent hotkeys
+#
+
+# playerctl
+#super + {~F2,~F3,~F1}
+#    playerctl {previous,next,play-pause}
+
+# pulseaudio controls speaker volume up & down
+{XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    pamixer {-i 1, -d 1}; \
+    ou_vol=$(pamixer --get-volume); \
+    jack_stat=$($HOME/bin/has_headphone); \
+    [ $jack_stat = "yes" ] && icon="  Headset"; \
+    [ $jack_stat = "no" ]  && icon="  Speaker"; \
+    dunstify "$icon Output Volume: "$ou_vol -t 1000 -r 1}
+
+# pulseaudio controls mic volume up & down
+shift + {XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    pamixer --source 1 {-i 1, -d 1}; \
+    ou_mic=$(pamixer --source 1 --get-volume); \
+    dunstify "  Microphone Input Volume: "$ou_mic -t 1000 -r 1
+
+# pulseaudio controls monitor volume up & down
+alt + {XF86AudioRaiseVolume, XF86AudioLowerVolume}
+    pamixer --source 0 {-i 1, -d 1}; \
+    ou_mon=$(pamixer --source 0 --get-volume); \
+    dunstify "  Monitor Input Volume: "$ou_mon -t 1000 -r 1
+
+# pulseaudio controls mute speaker
+XF86AudioMute
+    pamixer \
+    --toggle-mute; \
+    ou_mute=$(pamixer --get-mute); \
+    jack_stat=$($HOME/bin/has_headphone); \
+    [ $jack_stat = "yes" ]   && icon_on="  Headset" icon_off="  Headset"; \
+    [ $jack_stat = "no" ]    && icon_on="  Speaker" icon_off="  Speaker"; \
+    [ $ou_mute   = "true" ]  && dunstify "$icon_off MUTED" -t 1000 -r 1; \
+    [ $ou_mute   = "false" ] && dunstify "$icon_on UNMUTED" -t 1000 -r 1
+
+# pulseaudio controls mute mic
+shift + XF86AudioMute
+    pamixer \
+    --source 1 --toggle-mute; \
+    in_mute=$(pamixer --source 1 --get-mute); \
+    [ $in_mute = "true" ]  && dunstify "  Microphone Input MUTED" -t 1000 -r 1; \
+    [ $in_mute = "false" ] && dunstify "  Microphone Input UNMUTED" -t 1000 -r 1
+
+# pulseaudio controls mute monitor
+alt + XF86AudioMute
+    pamixer \
+    --source 0 --toggle-mute; \
+    mo_mute=$(pamixer --source 0 --get-mute); \
+    [ $mo_mute = "true" ]  && dunstify "  Monitor Input MUTED" -t 1000 -r 1; \
+    [ $mo_mute = "false" ] && dunstify "  Monitor Input UNMUTED" -t 1000 -r 1
+
+
+# screen brighness
+{XF86MonBrightnessUp, XF86MonBrightnessDown}
+    light {-A 5,-U 5}
+
+# Reload
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# screenshot
+Print
+    flameshot full -p ~/Pictures/screenshot
+
+super + Print
+    dmenu_screenshot
+
+# Power
+super + shift + Escape
+    dmenu_power
+
+# dmenu
+super + {Tab,~F10,~F4}
+    dmenu_{websearch,ffmpeg,qutebrowser}
+
+# program launcher
+super + {_,shift +} r
+    {rofi -show drun,dmenu_mager}
+    
+# polybar-tray
+super + ~F12
+    {polybar-tray off; polybar-tray on, polybar-tray off}
+
+# floating terminal emulator
+super + ctrl + Return
+	st -t 'st+'
+
+# clipmenu
+super + {_,shift} + p
+    {/usr/bin/clipmenu, /usr/bin/clipdel -d "."}

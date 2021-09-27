@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#
+# Display WiFi signal strenth and SSID
+#
+
+ssid=$( nmcli c show | grep wlp2s0 )
+ssid=${ssid%% *}
+strength=$( grep -e '^wlp82s' /proc/net/wireless )
+strength=${strength#*.}
+strength=${strength%%.*}
+
+if [ -z "$ssid" ]; then
+	echo -en "\ufaa9"
+elif [[ $strength -gt -50 ]]; then
+	echo -en "$ssid $strength ▂▄▆█"
+elif [[ $strength -gt -67 ]]; then
+	echo -en "$ssid $strength ▂▄▆ "
+elif [[ $strength -gt -80 ]]; then
+	echo -en "$ssid $strength ▂▄  "
+else
+	echo -en "$ssid $strength ▂   "
+fi
+

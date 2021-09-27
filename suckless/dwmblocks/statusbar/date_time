@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Prints out the date
+
+DATE=''
+TIME=''
+
+get_date()
+{
+    echo "$DATE $(date '+(%a)%d-%m-%y') $(date '+%H:%M')"
+    #echo "[$(date '+%a %d-%m-%y') $(date '+%H:%M')]"
+}
+
+get_date

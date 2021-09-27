@@ -1,0 +1,113 @@
+import subprocess
+config.load_autoconfig()
+
+# X configs change options / QB features
+config.bind('xc', 'config-cycle tabs.show always never')
+config.bind('xx', 'set tabs.show always;; later 5000 set tabs.show switching')
+config.bind('xg', 'tab-give')
+config.bind('xp', 'spawn ~/.bin/pocketadd {url}')
+config.bind('zd', 'download-open')
+config.bind('xb', 'config-cycle statusbar.hide')
+config.bind('xh', 'config-cycle content.user_stylesheets /home/hexdsl/.config/qutebrowser/styles/solarized-dark-all-sites.css ""')
+config.bind('B', 'set-cmd-text -s :bookmark-load')
+config.bind('xs', 'config-source')
+config.bind('<Alt+Up>', 'tab-prev')
+config.bind('<Alt+Down>', 'tab-next')
+config.bind('<Alt+Right>', 'tab-give')
+
+
+# configs are for downloading videos and music
+config.bind('zy', 'hint links spawn ~/.bin/ytdv {hint-url}')
+config.bind('zp', 'hint links spawn ~/.bin/ytdlp {hint-url} ~/Downloads/qbdownloads')
+config.bind('zv', 'spawn ~/.bin/ytdv {url}')
+config.bind('qr', 'spawn ~/.bin/qr {url}')
+
+# Ctrl shortcuts run scripts / applications
+config.bind('<Ctrl-m>', 'spawn --detach mpv --force-window yes {url}')
+config.bind('<Ctrl-Shift-p>', 'spawn --userscript password_fill')
+config.bind('<Ctrl-r>', 'spawn --userscript readability')
+config.bind('<Ctrl-y>', 'hint links spawn --detach mpv --force-window {hint-url}')
+
+# This one is a special one that opens all my pinned tabs
+config.bind('xo','open -t https://www.youtube.com/dashboard;;tab-pin;;open -t https://hackmd.io/recent#;;tab-pin;;open -t https://cloud.xpenguin.club;;tab-pin;;open -t https://linuxrocks.online/web/timelines/public/local;;tab-pin;;open -t https://tweetdeck.twitter.com/;;tab-pin')
+
+# Unbind shite defaults
+config.unbind('q')
+config.unbind('z')
+config.unbind('<Ctrl-v>')
+
+# c.? are options set at launch.
+c.spellcheck.languages = ['en-GB']
+c.tabs.favicons.scale = 1
+c.tabs.indicator.padding = {"top": 0, "right": 0, "bottom": 0, "left": 0}
+c.tabs.position = "left"
+c.tabs.show = "switching"
+c.tabs.title.format = ""
+c.tabs.width = 39
+c.content.cookies.accept = 'all'
+c.content.geolocation = 'ask'
+c.content.webgl = True
+# c.downloads.remove_finished = 800
+c.auto_save.session = True
+c.editor.command = ["urxvtc", "-e", "nvim", "{}"]
+c.scrolling.smooth = True
+
+c.content.host_blocking.enabled = True
+c.content.host_blocking.lists.append("http://sbc.io/hosts/hosts")
+c.content.host_blocking.whitelist = ["thepiratebay.org"]
+c.content.host_blocking.whitelist = ["google.com"]
+
+c.url.start_pages = ["https://duckduckgo.com"]
+
+# search engine shortneners
+c.url.searchengines = {
+"DEFAULT":"https://duckduckgo.com/?q={}",
+"goog": "https://www.google.co.uk/search?&q={}",
+"googi": "https://www.google.co.uk/search?q={}&tbm=isch",
+"wiki": "https://en.wikipedia.org/w/index.php?search={}",
+"steam": "http://store.steampowered.com/search/?term={}",
+"ddg": "https://duckduckgo.com/?q={}",
+"aur": "https://aur.archlinux.org/packages/?O=0&K={}",
+"arch": "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search={}",
+"imdb": "http://www.imdb.com/find?ref_=nv_sr_fn&s=all&q={}",
+"dic": "http://www.dictionary.com/browse/{}",
+"ety": "http://www.etymonline.com/index.php?allowed_in_frame=0&search={}",
+"urban": "http://www.urbandictionary.com/define.php?term={}",
+"ddgi": "https://duckduckgo.com/?q={}&iar=images",
+"lutris": "https://lutris.net/games/?q={}",
+"deal": "https://isthereanydeal.com/search/?q={}",
+"gog": "https://www.gog.com/games?sort=popularity&search={}&page=1",
+"proton": "https://www.protondb.com/search?q={}",
+"qwant": "https://www.qwant.com/?q={}",
+"sp": "https://www.startpage.com/do/dsearch?query={}",
+"humble": "https://www.humblebundle.com/store/search?sort=bestselling&search={}",
+"itch": "https://itch.io/search?q={}"}
+
+# call my folder shortcuts scripts
+config.source('shortcuts.py')
+
+#colours
+c.colors.completion.fg = "#ffffff"
+c.colors.completion.even.bg = "#262626"
+c.colors.completion.odd.bg = "#000000"
+c.colors.completion.category.fg = "#ffffff"
+c.colors.completion.category.bg = "#000000"
+c.colors.completion.category.border.top = "#8c8c8c"
+c.colors.completion.item.selected.fg = "#ffffff"
+c.colors.completion.item.selected.bg = "#cc00cc"
+c.colors.completion.item.selected.border.top = c.colors.completion.item.selected.bg
+c.colors.completion.item.selected.border.bottom = c.colors.completion.category.border.top
+c.colors.completion.match.fg = "#ccb3ff"
+c.colors.statusbar.insert.bg = "#cc0099"
+c.colors.tabs.odd.fg = "#ffffff"
+c.colors.tabs.odd.bg = "#000000"
+c.colors.tabs.even.fg = c.colors.tabs.odd.fg
+c.colors.tabs.even.bg = c.colors.tabs.odd.bg
+c.colors.tabs.selected.odd.bg = "#cc00cc"
+c.colors.tabs.selected.even.bg = c.colors.tabs.selected.odd.bg
+c.colors.tabs.bar.bg = "#000000"
+c.hints.border = "#000000"
+c.colors.hints.fg = "#cc00cc"
+c.colors.hints.bg = "#000000"
+c.colors.hints.match.fg = "#ffffff"
+c.colors.downloads.bar.bg = "#000000"

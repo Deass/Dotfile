@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CHOICE=$(printf '%s\n' "Poweroff" "Reboot" | dmenu -bw 2 -l 2)
+
+case "$CHOICE" in 
+	Poweroff) systemctl poweroff ;;
+	Reboot) systemctl reboot ;;
+esac
+	

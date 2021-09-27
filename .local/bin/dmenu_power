@@ -1,0 +1,21 @@
+#!/bin/bash
+# File              : dmenu_power
+# License           : MIT License
+# Author            : M. Nabil Adani <nblid48[at]gmail[dot]com>
+# Date              : Senin, 26/04/2021 07:48 WIB
+# Last Modified Date: Senin, 26/04/2021 07:48 WIB
+# Last Modified By  : M. Nabil Adani <nblid48[at]gmail[dot]com>
+
+DMENU="rofi -dmenu -lines 4 -width 30 -i -p Power"
+
+OPTIONS='''
+[
+  [ "⏾ Suspend",   "systemctl suspend" ],
+  [ " Hibernate", "systemctl hibernate" ],
+  [ " Reboot",    "systemctl reboot" ],
+  [ " Poweroff",  "systemctl poweroff" ]
+]
+'''
+
+label=$(echo $OPTIONS | jq -r ".[][0]" | $DMENU)
+exec $(echo $OPTIONS | jq -r ".[] | select(.[0] == \"$label\") | .[1]")

@@ -1,0 +1,681 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+;background = ${xrdb:color0:#222}
+background = #282828
+background-alt = #444
+;foreground = ${xrdb:color7:#222}
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+blue = #006eef
+yellow = #ffcb00
+green = #00b50e
+
+[bar/topbar]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 23
+;offset-x = 1%
+;offset-y = 1%
+radius = 6
+fixed-center = true
+bottom = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+;border-size = 0
+border-top-size = 5
+border-bottom-size = 5
+border-left-size = 5
+border-right-size = 5
+;border-color = ${colors.background}
+
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = Fira Code Retina:pixelsize=9;2
+font-1 = FontAwesome:pixelsize=10;2
+font-2 = Font Awesome 5 Brands:size=10;2
+font-3 = Fira Code Retina:weight=Bold:pixelsize=9;2
+font-4 = Fira Code Retina:weight=Bold:pixelsize=6;-1
+font-5 = FontAwesome:weight=Bold:pixelsize=4;-2
+font-6 = JetBrainsMono Nerd Font:pixelsize=10;2
+font-7 = Customfonts:pixelsize=15;3
+font-8 = JetBrainsMono Nerd Font:weight=Bold:pixelsize=4;-2
+font-9 = Noto Sans CJK JP:pixelsize=9;2
+font-10 = Customfonts:pixelsize=10;1
+
+modules-left = dwm
+modules-center =
+modules-right = record-ffmpeg sp1 volume sp1 temperature sp1 battery sp1 date sp1 power
+
+;tray-position = right
+;tray-padding = 2
+;tray-background = #0063ff
+
+enable-ipc = true
+
+wm-restack = dwm
+;wm-restack = i3
+
+;;override-redirect = true
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+[bar/traybspwm]
+monitor = eDP-1
+width = 5.0%
+height = 22
+radius = 5.0
+offset-x = -3
+offset-y = 0%
+fixed-center = true
+bottom = yes
+
+foreground = ${colors.foreground}
+background = ${colors.background}
+
+line-size = 1
+line-color = #dfdfdf
+
+border-size = 0
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = Fira Code Retina:pixelsize=9;2
+
+;separator =
+
+modules-left = sp1
+modules-center =
+modules-right = sp1
+
+tray-position = left
+tray-padding = 0
+tray-maxsize = 16
+tray-scale = 1.0
+tray-foreground = ${colors.foreground}
+tray-background = ${colors.background}
+tray-detached = true
+tray-offset-x = 3
+tray-offset-y = 0
+
+;wm-restack = bspwm
+
+override-redirect = true
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+  
+[module/xwindow]
+type = internal/xwindow
+format = <label>
+format-padding = 0
+
+;label = " %title:0:45:...% "
+label = " %title% "
+label-maxlen = 60
+label-foreground = ${colors.foreground}
+label-background = ${colors.blue}
+
+label-empty = " "
+label-empty-foreground = ${colors.foreground}
+label-empty-background = ${colors.background}
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+[module/title]
+type = internal/dwm
+format = <label-layout> <label-floating><label-title>
+
+; Left-click to set secondary layout, right-click to switch to previous layout
+enable-layout-click = true
+; Scroll to cycle between available layouts
+enable-layout-scroll = false
+; Wrap when scrolling and reaching begining/end of layouts
+layout-scroll-wrap = false
+; Reverse scroll direction
+layout-scroll-reverse = false
+
+; If enable-layout-click = true, clicking the layout symbol will switch to this layout
+secondary-layout-symbol = [M]
+
+; Path to dwm socket (default: /tmp/dwm.sock)
+; socket-path = /tmp/dwm.sock
+;
+
+; Separator in between shown tags
+; label-separator = |
+
+; Title of currently focused window
+; Available tokens:
+;   %title%
+label-title = "%{T7}%title%%{T-}"
+label-title-padding = 2
+label-title-background = ${colors.background}
+label-title-maxlen = 60
+
+; Defaults to 'Desktop'
+label-title-default = " "
+
+; Symbol of current layout
+; Available tokens:
+;   %symbol%
+label-layout = "%{T7}%symbol%%{T-}"
+label-layout-padding = 0
+label-layout-foreground = #ffffff
+label-layout-background = ${colors.background}
+
+; Text to show when currently focused window is floating
+label-floating = " %{T9}%{T-}"
+
+[module/bspwm]
+type = internal/bspwm
+
+pin-workspaces = true
+inline-mode = false
+enable-click = false
+enable-scroll = false
+reverse-scroll = false
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+
+label-monitor = "%name%%{F#56696F} |%{F-}"
+
+label-dimmed-foreground = ${colors.foreground}
+label-dimmed-focused-background = ${colors.background}
+
+label-focused = "%{T6}  %{T-}%{T1}%name%%{T-}%{F#56696F} |%{F-}"
+label-focused-foreground = #ffffff
+label-focused-background = ${colors.background}
+
+label-occupied = "%{T6}  %{T-}%{T1}%name%%{T-}%{F#56696F} |%{F-}"
+
+label-urgent = "%{T6}  %{T-}%{T1}%name%%{T-}%{F#56696F} |%{F-}"
+label-urgent-foreground = ${colors.alert}
+label-urgent-background = ${colors.background}
+
+label-empty = "%{T6}%{F#002B36}  %{F-}%{T-}%name%%{F#56696F} |%{F-}"
+label-empty-foreground = ${colors.foreground-alt}
+
+label-tiled = []=
+label-monocle = [M]=
+label-floating = <><
+label-fullscreen = [F]
+label-pseudotiled = [T]
+label-locked = [X]
+label-locked-foreground = ${colors.foreground}
+label-sticky = [Y]
+label-sticky-foreground = ${colors.foreground}
+label-private = [Z]
+label-private-foreground = ${colors.foreground}
+
+label-separator =
+label-separator-padding = 0
+label-separator-foreground = ${colors.foreground-alt}
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+[module/dwm]
+type = internal/dwm
+format = <label-tags> <label-layout> <label-floating><label-title>
+; Path to dwm socket (default: /tmp/dwm.sock)
+; socket-path = /tmp/dwm.sock
+
+; Left-click to view tag, right-click to toggle tag view
+enable-tags-click = true
+; Scroll to cycle between available tags
+enable-tags-scroll = false
+; If true and enable-tags-scroll = true, scrolling will view all tags regardless if occupied
+tags-scroll-empty = false
+; If true and enable-tags-scroll = true, scrolling will cycle through tags backwards
+tags-scroll-reverse = false
+; If true and enable-tags-scroll = true, wrap active tag when scrolling
+tags-scroll-wrap = false
+; Left-click to set secondary layout, right-click to switch to previous layout
+enable-layout-click = true
+; Scroll to cycle between available layouts
+enable-layout-scroll = false
+; Wrap when scrolling and reaching begining/end of layouts
+layout-scroll-wrap = false
+; Reverse scroll direction
+layout-scroll-reverse = false
+
+; If enable-layout-click = true, clicking the layout symbol will switch to this layout
+secondary-layout-symbol = [M]
+
+; Separator in between shown tags
+; label-separator = |
+
+; Title of currently focused window
+; Available tokens:
+;   %title%
+label-title = "%{T7}%title%%{T-}"
+label-title-padding = 2
+label-title-background = ${colors.background}
+label-title-maxlen = 45
+
+; Defaults to 'Desktop'
+label-title-default = " "
+
+; Symbol of current layout
+; Available tokens:
+;   %symbol%
+label-layout = "%{T7}%symbol%%{T-}"
+label-layout-padding = 0
+label-layout-foreground = #ffffff
+label-layout-background = ${colors.background}
+
+; Text to show when currently focused window is floating
+label-floating = " %{T9}%{T-}"
+
+; States: focused, unfocused, visible, urgent, empty
+; Available tokens:
+;   %name%
+
+; focused = Selected tag on focused monitor
+label-focused = "%{T9}  %{T-}%{T7}%name%%{T-}"
+label-focused-foreground = #ffffff
+label-focused-background = ${colors.background}
+label-focused-padding = 2
+
+; visible = Unselected tag, but occupied tag on any monitor
+label-visible = "%{T9}  %{T-}%{T7}%name%%{T-}"
+label-visible-foreground = #989898
+label-visible-padding = 2
+
+label-urgent = "%{T9}  %{T-}%{T7}%name%%{T-}"
+label-urgent-foreground = #282828
+label-urgent-background = #ffffff
+label-urgent-padding = 2 
+
+; empty = Unselected and unoccupied tag
+; This can be set to an empty string to hide empty tags
+
+label-empty = "%{T9}%{F#282828}  %{F-}%{T-}%{F#989898}%{T7}%name%%{F-}%{T-}"
+label-empty-foreground = #989898
+label-empty-background = ${colors.background}
+label-empty-padding = 2
+
+[module/dwm2]
+type = internal/dwm
+format = <label-tags>
+; Path to dwm socket (default: /tmp/dwm.sock)
+; socket-path = /tmp/dwm.sock
+
+; Left-click to view tag, right-click to toggle tag view
+enable-tags-click = true
+; Scroll to cycle between available tags
+enable-tags-scroll = false
+; If true and enable-tags-scroll = true, scrolling will view all tags regardless if occupied
+tags-scroll-empty = false
+; If true and enable-tags-scroll = true, scrolling will cycle through tags backwards
+tags-scroll-reverse = false
+; If true and enable-tags-scroll = true, wrap active tag when scrolling
+tags-scroll-wrap = false
+
+; States: focused, unfocused, visible, urgent, empty
+; Available tokens:
+;   %name%
+
+; focused = Selected tag on focused monitor
+label-focused = "%{T7} %{T-}"
+label-focused-foreground = #ffffff
+label-focused-background = ${colors.background}
+label-focused-padding = 2
+
+; visible = Unselected tag, but occupied tag on any monitor
+label-visible = "%{T7} %{T-}"
+label-visible-foreground = #989898
+label-visible-padding = 2
+
+label-urgent = "%{T7} %{T-}"
+label-urgent-foreground = #111111
+label-urgent-background = ${colors.foreground}
+label-urgent-padding = 2 
+
+; empty = Unselected and unoccupied tag
+; This can be set to an empty string to hide empty tags
+
+label-empty = "%{T7} %{T-}"
+label-empty-foreground = #989898
+label-empty-background = ${colors.background}
+label-empty-padding = 2
+
+[module/mpd]
+type = internal/mpd
+format-online = <icon-prev> <toggle> <icon-next> <label-song>
+
+icon-prev = " "
+icon-play = "  "
+icon-pause = "  "
+icon-stop = "  "
+icon-next = " "
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "  "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #f90000
+label = "%percentage:2%%"
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+;format-underline = #4bffdc
+label = %percentage_used%%
+
+[module/netspdwlan]
+type = internal/network
+interface = wlp2s0
+interval = 1.0
+format-connected = "<label-connected>"
+label-connected = "  %downspeed:3%   %upspeed:3%"
+label-connected-foreground = ${colors.foreground}
+label-connected-background = ${colors.background}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = " %Y/%m/%d"
+
+time = %H:%M %p
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+;format-underline = #0a6cf5
+
+label = " %date% %time%"
+
+[module/volume]
+type = internal/pulseaudio
+
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+use-ui-max = true
+
+interval = 5
+
+format-volume = "%{T7}<ramp-volume>%{T-} <label-volume>"
+
+format-muted = "%{T7}<label-muted>%{T-} <label-volume>"
+format--muted-foreground = ${colors.foreground}
+label-muted-foreground = ${colors.alert}
+label-muted = " "
+
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+ramp-volume-foreground = ${colors.foreground}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC0
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+;format-charging-underline = #ffb52a
+
+format-discharging = "<ramp-capacity><label-discharging>"
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full-prefix = "  "
+format-full-prefix-foreground = ${colors.green}
+;format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = "   "
+ramp-capacity-0-foreground = ${colors.alert}
+ramp-capacity-1 = "  "
+ramp-capacity-2 = "  "
+ramp-capacity-3 = "  "
+ramp-capacity-foreground = ${colors.foreground}
+
+animation-charging-0 = "  "
+animation-charging-1 = "  "
+animation-charging-2 = "  "
+animation-charging-3 = "  "
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 65
+
+format = <ramp> <label>
+;format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+;format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+;label-warn-foreground = ${colors.alert}
+
+ramp-0 = " "
+ramp-1 = " "
+ramp-2 = " "
+ramp-3 = " "
+ramp-4 = "   "
+ramp-4-foreground = ${colors.alert}
+ramp-foreground = ${colors.foreground}
+
+;------------------------------------------------------------ Module With Custom Scripts
+
+[module/record-ffmpeg]
+type = custom/script
+exec = ~/.config/polybar/scripts/record
+exec-if = "pgrep -x 'ffmpeg'"
+tail = true
+interval = 1
+; format = "%{B#66934B}%{T1}<label> %{T-}%{B-}"
+format = "%{T7}<label>%{T-}"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[module/light]
+;type = custom/script
+;exec = ~/.config/polybar/scripts/brightness
+;tail = true
+;interval = 1
+;; format = "%{B#66934B}%{T1}<label> %{T-}%{B-}"
+;format = "%{T7}<label>%{T-}"
+;format-foreground = ${colors.foreground}
+;format-background = ${colors.background}
+type = custom/script
+interval = 0.2
+exec = ~/.config/polybar/scripts/brightness
+
+scroll-up = exec light -A 5
+scroll-down = exec light -U 5
+
+format-prefix = "%{T7} %{T-}"
+
+label = %output%
+label-foreground = ${colors.fg}
+format-padding = 1
+
+[module/mpdd]
+type = custom/script
+exec = ~/.config/polybar/scripts/mpd
+tail = true
+interval = 1
+; format = "%{B#66934B}%{T1}<label> %{T-}%{B-}"
+format = "%{T1}<label>%{T-}"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+[module/volume2]
+type = custom/script
+exec = ~/.config/polybar/scripts/volume
+tail = true
+interval = 1
+; format = "%{B#66934B}%{T1}<label> %{T-}%{B-}"
+format = "%{T7}<label>%{T-}"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+;------------------------------------------------------------
+
+[module/power]
+;type = custom/text
+;content = "%{T8} %{T-}"
+;content-foreground = ${colors.foreground}
+;content-background = ${colors.background}
+type = custom/menu
+
+expand-right = true
+
+format-spacing = 1
+
+label-open = "%{T8}  %{T-}"
+label-open-foreground = #989898
+label-close = "%{T8}  %{T-}"
+label-close-foreground = ${colors.alert}
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 =  reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 =  power off
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = sudo reboot
+
+menu-2-0 = power off
+menu-2-0-exec = sudo poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+[module/dwm-logo]
+type = custom/text
+content = "%{T8}  %{T-}"
+content-foreground = #989898
+content-background = ${colors.background}
+
+[module/sp1]
+type = custom/text
+content = "   "
+content-foreground = ${colors.foreground}
+content-background = ${colors.background}
+
+[module/sp2]
+type = custom/text
+content = " | "
+;content = "  "
+content-foreground = ${colors.foreground-alt}
+content-background = ${colors.background}
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini

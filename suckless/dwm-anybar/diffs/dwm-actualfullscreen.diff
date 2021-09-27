@@ -1,0 +1,100 @@
+diff --git a/dwm.c b/dwm.c
+index b0b3466..ef0c3b8 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -49,7 +49,7 @@
+ #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
+ #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
+                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
+-#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
++#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
+ #define LENGTH(X)               (sizeof X / sizeof X[0])
+ #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
+ #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
+@@ -92,7 +92,7 @@ struct Client {
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+ 	int bw, oldbw;
+ 	unsigned int tags;
+-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
++	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, issticky, isalwaysontop;
+ 	Client *next;
+ 	Client *snext;
+ 	Monitor *mon;
+@@ -212,6 +212,8 @@ static void tagmon(const Arg *arg);
+ static void tile(Monitor *);
+ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
++static void togglefullscr(const Arg *arg);
++static void togglesticky(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);
+@@ -835,7 +837,7 @@ focusstack(const Arg *arg)
+ {
+ 	Client *c = NULL, *i;
+ 
+-	if (!selmon->sel || selmon->sel->isfullscreen)
++	if (!selmon->sel)
+ 		return;
+ 	if (arg->i > 0) {
+ 		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
+@@ -1357,6 +1359,17 @@ restack(Monitor *m)
+ 		return;
+ 	if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
+ 		XRaiseWindow(dpy, m->sel->win);
++
++	/* raise the aot window */
++	for(Monitor *m_search = mons; m_search; m_search = m_search->next){
++		for(c = m_search->clients; c; c = c->next){
++			if(c->isalwaysontop){
++				XRaiseWindow(dpy, c->win);
++				break;
++			}
++		}
++	}
++
+ 	if (m->lt[m->sellt]->arrange) {
+ 		wc.stack_mode = Below;
+ 		wc.sibling = m->barwin;
+@@ -1719,7 +1732,41 @@ togglefloating(const Arg *arg)
+ 	if (selmon->sel->isfloating)
+ 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
+ 			selmon->sel->w, selmon->sel->h, 0);
++	else
++		selmon->sel->isalwaysontop = 0; /* disabled, turn this off too */
++	arrange(selmon);
++}
++
++void
++togglefullscr(const Arg *arg)
++{
++  if(selmon->sel)
++    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
++}
++
++void
++togglesticky(const Arg *arg)
++{
++	if (!selmon->sel)
++		return;
++	selmon->sel->issticky = !selmon->sel->issticky;
+ 	arrange(selmon);
++
++	if (selmon->sel->isfullscreen)
++		return;
++
++	if(selmon->sel->isalwaysontop){
++		selmon->sel->isalwaysontop = 0;
++	}else{
++		/* disable others */
++		for(Monitor *m = mons; m; m = m->next)
++			for(Client *c = m->clients; c; c = c->next)
++				c->isalwaysontop = 0;
++
++		/* turn on, make it float too */
++		selmon->sel->isfloating = 1;
++		selmon->sel->isalwaysontop = 1;
++	}
+ }
+ 
+ void
